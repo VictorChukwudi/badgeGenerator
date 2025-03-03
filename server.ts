@@ -14,7 +14,7 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/generate", async (req: Request, res: Response) => {
   try {
     const { id, email, fullname } = req.body;
-    consolee.log(req.body)
+    console.log(req.body);
     // const id = "00001";
     const outputPath = join(__dirname, "badge", `${id}.png`);
     await generateBadge(id, outputPath);
