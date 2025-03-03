@@ -1,14 +1,18 @@
 import { createCanvas, loadImage } from "canvas";
-import { writeFile, mkdir } from "fs/promises";
+import { writeFile, unlink, mkdir } from "fs/promises";
 import { join } from "path";
 import bwipjs from "bwip-js";
 
-async function generateBadge(id: string, outputPath?: string): Promise<string> {
+const badgeDirectory = "/tmp/badge"; // Writable directory on Render
+
+async function generateBadge(id: string): Promise<string> {
   const canvas = createCanvas(500, 500);
   const ctx = canvas.getContext("2d");
 
   try {
-    // console.log(join(__dirname, "badge_template.png"));
+    // Ensure the directory exists
+    await mkdir(badgeDirectory, { recursive: true });
+
     const template = await loadImage(join(__dirname, "badge_template.png"));
     ctx.drawImage(template, 0, 0, 500, 500);
 
@@ -17,38 +21,38 @@ async function generateBadge(id: string, outputPath?: string): Promise<string> {
 
     // Generate barcode as PNG buffer
     const barcodeBuffer = await bwipjs.toBuffer({
-      bcid: "code128", // Or another barcode type
+      bcid: "code128",
       text: id,
       scale: 1,
-      height: 3, // Adjust height as needed
-      includetext: true, // Don't include the text below the barcode
-      textxalign: "center", // Align text centrally
+      height: 3,
+      includetext: true,
+      textxalign: "center",
     });
 
-    // Load barcode buffer into an Image object
     const barcodeImage = await loadImage(barcodeBuffer);
-
-    // Calculate barcode position
-    const barcodeX = (canvas.width - barcodeImage.width) / 2; // Center horizontally
-    const barcodeY = 380; // Adjust vertical position as needed
-
-    // Draw barcode onto canvas
+    const barcodeX = (canvas.width - barcodeImage.width) / 2;
+    const barcodeY = 380;
     ctx.drawImage(barcodeImage, barcodeX, barcodeY);
 
     const buffer = canvas.toBuffer("image/png");
-    const badgeDirectory = join(__dirname, "badge");
-    await mkdir(badgeDirectory, { recursive: true });
+    const badgePath = join(badgeDirectory, `${id}.png`);
+    await writeFile(badgePath, buffer);
 
-    // Use provided outputPath or default to the "badge" directory
-    const fullOutputPath = outputPath || join(badgeDirectory, `${id}.png`);
-    await writeFile(fullOutputPath, buffer);
-
-    console.log(`Badge saved: ${fullOutputPath}`);
-    return fullOutputPath; // Return the generated badge's path
+    console.log(`✅ Badge saved: ${badgePath}`);
+    return badgePath; // Return path of generated badge
   } catch (error) {
-    console.error("Error generating badge:", error);
+    console.error("❌ Error generating badge:", error);
     throw error;
   }
 }
 
-export { generateBadge };
+async function deleteBadge(badgePath: string): Promise<void> {
+  try {
+    await unlink(badgePath);
+    console.log(`🗑️ Deleted badge: ${badgePath}`);
+  } catch (error) {
+    console.error(`❌ Failed to delete badge: ${badgePath}`, error);
+  }
+}
+
+export { generateBadge, deleteBadge };

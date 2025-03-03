@@ -4,8 +4,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const { EMAIL, PASSWORD } = process.env;
-async function sendBadge(email: string, badgePath: string) {
-  console.log(badgePath);
+
+async function sendBadge(email: string, badgePath: string): Promise<void> {
+  console.log(`📩 Sending badge to: ${email}`);
+
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -15,7 +17,7 @@ async function sendBadge(email: string, badgePath: string) {
   });
 
   let mailOptions = {
-    from: `"Badge Generator" ${EMAIL}`,
+    from: EMAIL,
     to: email,
     subject: "Your Badge is Ready!",
     text: "Here is your badge.",
@@ -23,6 +25,7 @@ async function sendBadge(email: string, badgePath: string) {
   };
 
   await transporter.sendMail(mailOptions);
+  console.log(`✅ Email sent to: ${email}`);
 }
 
 export { sendBadge };
