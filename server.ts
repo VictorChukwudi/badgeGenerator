@@ -7,6 +7,10 @@ import { sendBadge } from "./src/mailer";
 const app = express();
 const port = 5000;
 
+app.get("/", (req: Request, res: Response) => {
+  res.send("Badge Generator Server is running.");
+});
+
 app.get("/generate", async (req: Request, res: Response) => {
   try {
     const { id, email, fullname } = req.body;
