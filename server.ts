@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
 import { generateBadge } from "./src/generator";
 import { join } from "path";
@@ -6,6 +7,8 @@ import { sendBadge } from "./src/mailer";
 
 const app = express();
 const port = 5000;
+
+app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Badge Generator Server is running.");
