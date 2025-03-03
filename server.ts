@@ -11,7 +11,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Badge Generator Server is running.");
 });
 
-app.get("/generate", async (req: Request, res: Response) => {
+app.post("/generate", async (req: Request, res: Response) => {
   try {
     const { id, email, fullname } = req.body;
     // const id = "00001";
