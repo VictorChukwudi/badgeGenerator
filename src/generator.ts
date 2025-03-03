@@ -8,7 +8,7 @@ async function generateBadge(id: string, outputPath?: string): Promise<string> {
   const ctx = canvas.getContext("2d");
 
   try {
-    console.log(join(__dirname, "badge_template.png"));
+    // console.log(join(__dirname, "badge_template.png"));
     const template = await loadImage(join(__dirname, "badge_template.png"));
     ctx.drawImage(template, 0, 0, 500, 500);
 
