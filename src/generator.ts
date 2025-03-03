@@ -13,7 +13,7 @@ async function generateBadge(id: string): Promise<string> {
     // Ensure the directory exists
     await mkdir(badgeDirectory, { recursive: true });
 
-    const template = await loadImage(join(__dirname, "badge_template.png"));
+    const template = await loadImage(join(__dirname, "badge_template2.png"));
     ctx.drawImage(template, 0, 0, 500, 500);
 
     ctx.font = "bold 20px Arial";
