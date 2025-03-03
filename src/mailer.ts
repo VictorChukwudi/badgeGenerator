@@ -5,6 +5,7 @@ dotenv.config();
 
 const { EMAIL, PASSWORD } = process.env;
 async function sendBadge(email: string, badgePath: string) {
+  console.log(badgePath);
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
