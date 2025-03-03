@@ -23,8 +23,9 @@ app.post("/generate", async (req: Request, res: Response) => {
 
     // Continue with badge generation and sending email
     const outputPath = join(__dirname, "badge", `${id}.png`);
-    await generateBadge(id, outputPath);
-    console.log("Badge generated:", outputPath);
+    const result = await generateBadge(id, outputPath);
+
+    console.log(result);
     await sendBadge(email, outputPath);
     res.status(200).send(`Badge generated: ${id}.png`);
   } catch (error) {
