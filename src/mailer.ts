@@ -19,8 +19,8 @@ async function sendBadge(email: string, badgePath: string): Promise<void> {
   let mailOptions = {
     from: EMAIL,
     to: email,
-    subject: "Your Badge is Ready!",
-    text: "Here is your badge.",
+    subject: "MOGA Badge",
+    text: "Here is your MOGA badge.",
     attachments: [{ filename: "badge.png", path: badgePath }],
   };
 
