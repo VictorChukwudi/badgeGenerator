@@ -1,0 +1,12 @@
+name: Keep Server Awake
+
+on:
+  schedule:
+    - cron: "*/14 * * * *" # Run every 14 minutes
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make HTTP Request
+        run: curl https://badgegenerator.onrender.com/
