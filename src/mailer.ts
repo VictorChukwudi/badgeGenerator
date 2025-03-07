@@ -5,7 +5,11 @@ dotenv.config();
 
 const { EMAIL, PASSWORD } = process.env;
 
-async function sendBadge(email: string, badgePath: string): Promise<void> {
+async function sendBadge(
+  email: string,
+  badgePath: string,
+  type: string
+): Promise<void> {
   console.log(`📩 Sending badge to: ${email}`);
 
   let transporter = nodemailer.createTransport({
@@ -16,12 +20,14 @@ async function sendBadge(email: string, badgePath: string): Promise<void> {
     },
   });
 
+  const subject = type == "moga" ? "MOGA Badge" : "True Patriot Badge";
+  const filename = type == "moga" ? "moga_badge.png" : "top_badge.png";
   let mailOptions = {
     from: EMAIL,
     to: email,
-    subject: "MOGA Badge",
+    subject,
     text: "Here is your MOGA badge.",
-    attachments: [{ filename: "badge.png", path: badgePath }],
+    attachments: [{ filename, path: badgePath }],
   };
 
   await transporter.sendMail(mailOptions);

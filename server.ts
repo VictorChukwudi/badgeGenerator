@@ -29,7 +29,7 @@ app.post("/generate/:type", async (req: Request, res: Response) => {
     const badgePath = await generateBadge(id, fullname, type);
 
     // Send badge via email
-    await sendBadge(email, badgePath);
+    await sendBadge(email, badgePath, type);
 
     // Delete badge after sending
     await deleteBadge(badgePath);
