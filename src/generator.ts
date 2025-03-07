@@ -20,8 +20,8 @@ async function generateBadge(
 
     const tempName =
       type == "moga"
-        ? "template/official_moga_temp"
-        : "template/official_patriot_temp";
+        ? "template/official_moga_temp.png"
+        : "template/official_patriot_temp.png";
     const template = await loadImage(join(__dirname, tempName));
     ctx.drawImage(template, 0, 0, 500, 500);
 
