@@ -20,9 +20,10 @@ async function generateBadge(
 
     const tempName =
       type == "moga"
-        ? "template/official_moga_temp.png"
-        : "template/official_patriot_temp.png";
-    const template = await loadImage(join(__dirname, tempName));
+        ? join(__dirname, "template", "official_moga_temp.png")
+        : join(__dirname, "template", "official_patriot_temp.png");
+    const template = await loadImage(tempName);
+
     ctx.drawImage(template, 0, 0, 500, 500);
 
     ctx.font = "bold 24px 'Gabriola'";
