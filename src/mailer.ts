@@ -26,7 +26,7 @@ async function sendBadge(
     from: EMAIL,
     to: email,
     subject,
-    text: `Here is your ${subject}`,
+    text: `Here is your ${subject}.`,
     attachments: [{ filename, path: badgePath }],
   };
 
