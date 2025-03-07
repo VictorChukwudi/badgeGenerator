@@ -26,7 +26,7 @@ async function generateBadge(
 
     ctx.drawImage(template, 0, 0, 500, 500);
 
-    ctx.font = "bold 24px 'Gabriola'";
+    ctx.font = "bold 20px 'Gabriola'";
     ctx.fillStyle = "#fe0000";
 
     //Add Fullname
