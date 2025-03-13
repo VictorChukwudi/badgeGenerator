@@ -71,7 +71,7 @@ async function generateBadge2(id: string, fullname: string): Promise<string> {
     await mkdir(badgeDirectory2, { recursive: true });
 
     const template = await loadImage(
-      join(__dirname, "templates/official_patriot_temp.png")
+      join(__dirname, "official_patriot_temp.png")
     );
     ctx.drawImage(template, 0, 0, 500, 500);
 

@@ -7,6 +7,7 @@ import {
   generateBadge3,
 } from "./src/generator";
 import { sendBadge } from "./src/mailer";
+import brevoMailer from "./src/brevo-mailer";
 
 const app = express();
 const port = 5000;
@@ -45,8 +46,10 @@ app.post("/generate2", async (req: Request, res: Response) => {
   try {
     const { id, email, fullname } = req.body;
     console.log("📥 Received data:", { id, email, fullname });
-    const badgePath = await generateBadge3(id, fullname);
+    const badgePath = await generateBadge2(id, fullname);
     console.log(badgePath);
+    // await brevoMailer(email, badgePath)
+    await brevoMailer(email, "./src/badge/test.txt")
     res.status(200).send(`✅ Badge generated and sent: ${id}.png`);
   } catch (error) {
     console.error("❌ Error handling generate request:", error);
