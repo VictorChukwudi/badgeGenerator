@@ -16,10 +16,10 @@ cloudinaryInstance.config({
     api_secret: CLOUDINARY_API_SECRET,
 });
 
-const uploadBadge = async (badgePath: string, type: string) => {
+const uploadBadge = async (badgePath: string, type: string, id: string) => {
     const folder = type === "moga" ? "/badges/moga" : "/badges/top";
     try {
-        const result = await cloudinaryInstance.uploader.upload(badgePath, { folder });
+        const result = await cloudinaryInstance.uploader.upload(badgePath, { folder, public_id: id });
         // console.log(result.public_id)
         // console.log(result.secure_url)
 

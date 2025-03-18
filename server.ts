@@ -34,7 +34,7 @@ app.post("/generate/:type", async (req: Request, res: Response) => {
     // await sendBadge(email, badgePath, type);
 
     //Upload badge to cloudinary
-    const { downloadUrl, imageUrl } = await uploadBadge(badgePath, type)
+    const { downloadUrl, imageUrl } = await uploadBadge(badgePath, type, id)
 
     //Send badge via brevo
     await brevoMailer(email, downloadUrl, imageUrl)
@@ -58,7 +58,7 @@ app.post("/generate2/:type", async (req: Request, res: Response) => {
     const badgePath = await generateBadge2(id, fullname);
     console.log(badgePath);
     // await brevoMailer(email, badgePath)
-    const { downloadUrl, imageUrl } = await uploadBadge(badgePath, type)
+    const { downloadUrl, imageUrl } = await uploadBadge(badgePath, type, id)
     await brevoMailer(email, downloadUrl, imageUrl)
     res.status(200).send(`✅ Badge generated and sent: ${id}.png`);
   } catch (error) {
