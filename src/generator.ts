@@ -75,7 +75,7 @@ async function generateBadge2(id: string, fullname: string): Promise<string> {
     );
     ctx.drawImage(template, 0, 0, 500, 500);
 
-    ctx.font = "bold 24px 'Gabriola'";
+    ctx.font = "bold 24px 'Arial'";
     ctx.fillStyle = "#fe0000";
 
     ctx.textAlign = "center";

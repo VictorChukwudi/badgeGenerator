@@ -8,6 +8,7 @@ import {
 } from "./src/generator";
 import { sendBadge } from "./src/mailer";
 import brevoMailer from "./src/brevo-mailer";
+import { uploadBadge } from "./src/uploader";
 
 const app = express();
 const port = 5000;
@@ -30,7 +31,14 @@ app.post("/generate/:type", async (req: Request, res: Response) => {
     const badgePath = await generateBadge(id, fullname, type);
 
     // Send badge via email
-    await sendBadge(email, badgePath, type);
+    // await sendBadge(email, badgePath, type);
+
+    //Upload badge to cloudinary
+    const { downloadUrl, imageUrl } = await uploadBadge(badgePath, type)
+
+    //Send badge via brevo
+    await brevoMailer(email, downloadUrl, imageUrl)
+
 
     // Delete badge after sending
     await deleteBadge(badgePath);
@@ -42,14 +50,16 @@ app.post("/generate/:type", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/generate2", async (req: Request, res: Response) => {
+app.post("/generate2/:type", async (req: Request, res: Response) => {
   try {
     const { id, email, fullname } = req.body;
+    const type = req.params.type;
     console.log("📥 Received data:", { id, email, fullname });
     const badgePath = await generateBadge2(id, fullname);
     console.log(badgePath);
     // await brevoMailer(email, badgePath)
-    await brevoMailer(email, "./src/badge/test.txt")
+    const { downloadUrl, imageUrl } = await uploadBadge(badgePath, type)
+    await brevoMailer(email, downloadUrl, imageUrl)
     res.status(200).send(`✅ Badge generated and sent: ${id}.png`);
   } catch (error) {
     console.error("❌ Error handling generate request:", error);
